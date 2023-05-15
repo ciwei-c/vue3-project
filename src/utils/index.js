@@ -20,12 +20,12 @@ export const requireContentObject = (r, exinclude) => {
  * @returns {Object}
  */
 export function deepClone(source) {
-  if (!source && typeof source !== 'object') {
-    throw new Error('error arguments', 'deepClone');
+  if (!source && typeof source !== "object") {
+    throw new Error("error arguments", "deepClone");
   }
   const targetObj = source.constructor === Array ? [] : {};
   Object.keys(source).forEach((keys) => {
-    if (source[keys] && typeof source[keys] === 'object') {
+    if (source[keys] && typeof source[keys] === "object") {
       targetObj[keys] = deepClone(source[keys]);
     } else {
       targetObj[keys] = source[keys];
@@ -38,20 +38,20 @@ export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null;
   }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
+  const format = cFormat || "{y}-{m}-{d} {h}:{i}:{s}";
   let date;
-  if (typeof time === 'object') {
+  if (typeof time === "object") {
     date = time;
   } else {
-    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
+    if (typeof time === "string" && /^[0-9]+$/.test(time)) {
       time = parseInt(time);
     }
-    if (typeof time === 'number' && time.toString().length === 10) {
+    if (typeof time === "number" && time.toString().length === 10) {
       time = time * 1000;
     }
 
     try {
-      time = time && time.split('-').join('/');
+      time = time && time.split("-").join("/");
     } catch (error) {
       //
     }
@@ -64,27 +64,27 @@ export function parseTime(time, cFormat) {
     h: date.getHours(),
     i: date.getMinutes(),
     s: date.getSeconds(),
-    a: date.getDay()
+    a: date.getDay(),
   };
   const timeStr = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key];
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') {
-      return ['日', '一', '二', '三', '四', '五', '六'][value];
+    if (key === "a") {
+      return ["日", "一", "二", "三", "四", "五", "六"][value];
     }
     if (result.length > 0 && value < 10) {
-      value = '0' + value;
+      value = "0" + value;
     }
     return value || 0;
   });
   return timeStr;
 }
 
-export function hideStrUseSign(str, start = 0, end, sign = '*') {
+export function hideStrUseSign(str, start = 0, end, sign = "*") {
   if (!end) end = str.length;
-  if (typeof start !== 'number') return str;
+  if (typeof start !== "number") return str;
   str = str
-    .split('')
+    .split("")
     .map((v, idx) => {
       if (idx >= start) {
         if (idx <= end) {
@@ -96,16 +96,16 @@ export function hideStrUseSign(str, start = 0, end, sign = '*') {
         return v;
       }
     })
-    .join('');
+    .join("");
   return str;
 }
 
 export function toFixed(num, unit, precision = 2) {
   if (num || num === 0) {
-    if (typeof num === 'string') num = Number(num);
-    return num.toFixed(precision) + (unit || '');
+    if (typeof num === "string") num = Number(num);
+    return num.toFixed(precision) + (unit || "");
   } else {
-    return '';
+    return "";
   }
 }
 
@@ -114,7 +114,7 @@ export function toHome() {
 }
 
 export function toLogin() {
-  window.location = window.location.pathname + '#/login';
+  window.location = window.location.pathname + "#/login";
 }
 
 export function priceNumberFormat(num, precision = 2) {
@@ -125,33 +125,35 @@ export function priceNumberFormat(num, precision = 2) {
   if (isNegative) {
     num *= -1;
   }
-  num = toFixed(num, '', precision);
-  let [int, decimal] = num.split('.');
+  num = toFixed(num, "", precision);
+  let [int, decimal] = num.split(".");
   int
-    .split('')
+    .split("")
     .reverse()
     .forEach((v, i) => {
       if (i % 3 === 0 && i !== 0) {
-        format.push(',');
+        format.push(",");
       }
       format.push(v);
     });
-  return `${isNegative ? '-' : ''}${format.reverse().join('')}${decimal ? '.' + decimal : ''}`;
+  return `${isNegative ? "-" : ""}${format.reverse().join("")}${
+    decimal ? "." + decimal : ""
+  }`;
 }
 
 export function download(data, strFileName, strMimeType) {
   var self = window,
-    u = 'application/octet-stream',
+    u = "application/octet-stream",
     m = strMimeType || u,
     x = data,
     D = document,
-    a = D.createElement('a'),
+    a = D.createElement("a"),
     z = function (a) {
       return String(a);
     },
     B = self.Blob || self.MozBlob || self.WebKitBlob || z,
     BB = self.MSBlobBuilder || self.WebKitBlobBuilder || self.BlobBuilder,
-    fn = strFileName || 'download',
+    fn = strFileName || "download",
     blob,
     b,
     fr;
@@ -159,7 +161,7 @@ export function download(data, strFileName, strMimeType) {
   function d2b(u) {
     var p = u.split(/[:;,]/),
       t = p[1],
-      dec = p[2] == 'base64' ? atob : decodeURIComponent,
+      dec = p[2] == "base64" ? atob : decodeURIComponent,
       bin = dec(p.pop()),
       mx = bin.length,
       i = 0,
@@ -169,10 +171,10 @@ export function download(data, strFileName, strMimeType) {
   }
 
   function saver(url, winMode) {
-    if ('download' in a) {
+    if ("download" in a) {
       a.href = url;
-      a.setAttribute('download', fn);
-      a.innerHTML = 'downloading...';
+      a.setAttribute("download", fn);
+      a.innerHTML = "downloading...";
       D.body.appendChild(a);
       setTimeout(function () {
         a.click();
@@ -185,10 +187,10 @@ export function download(data, strFileName, strMimeType) {
       }, 66);
       return true;
     }
-    var f = D.createElement('iframe');
+    var f = D.createElement("iframe");
     D.body.appendChild(f);
     if (!winMode) {
-      url = 'data:' + url.replace(/^data:([\w\/\-\+]+)/, u);
+      url = "data:" + url.replace(/^data:([\w\/\-\+]+)/, u);
     }
 
     f.src = url;
@@ -196,7 +198,7 @@ export function download(data, strFileName, strMimeType) {
       D.body.removeChild(f);
     }, 333);
   }
-  if (String(this) === 'true') {
+  if (String(this) === "true") {
     x = [x, m];
     m = x[0];
     x = x[1];
@@ -219,11 +221,11 @@ export function download(data, strFileName, strMimeType) {
   if (self.URL) {
     saver(self.URL.createObjectURL(blob), true);
   } else {
-    if (typeof blob === 'string' || blob.constructor === z) {
+    if (typeof blob === "string" || blob.constructor === z) {
       try {
-        return saver('data:' + m + ';base64,' + self.btoa(blob));
+        return saver("data:" + m + ";base64," + self.btoa(blob));
       } catch (y) {
-        return saver('data:' + m + ',' + encodeURIComponent(blob));
+        return saver("data:" + m + "," + encodeURIComponent(blob));
       }
     }
     fr = new FileReader();
@@ -236,7 +238,7 @@ export function download(data, strFileName, strMimeType) {
 }
 
 export function getRangeDisplay(data, prop, precision, moneyFormat = true) {
-  let v = '';
+  let v = "";
   const _ = (v, u, p) => {
     if (moneyFormat) {
       return priceNumberFormat(v, p);
@@ -250,14 +252,16 @@ export function getRangeDisplay(data, prop, precision, moneyFormat = true) {
     let from = data[`${prop}From`];
     let to = data[`${prop}To`];
     if (from === undefined && to === undefined) {
-      v = '--';
+      v = "--";
     } else {
       if (from == undefined && to != undefined) {
-        v = `${!precision ? to : _(to, '', precision)}以下`;
+        v = `${!precision ? to : _(to, "", precision)}以下`;
       } else if (from != undefined && to == undefined) {
-        v = `${!precision ? from : _(from, '', precision)}以上`;
+        v = `${!precision ? from : _(from, "", precision)}以上`;
       } else {
-        v = `${!precision ? from : _(from, '', precision)}-${!precision ? to : _(to, '', precision)}`;
+        v = `${!precision ? from : _(from, "", precision)}-${
+          !precision ? to : _(to, "", precision)
+        }`;
       }
     }
   }

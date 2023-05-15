@@ -3,7 +3,4 @@
     <a-button type="primary">Primary Button</a-button>
   </div>
 </template>
-<script>
-
-</script>
-
+<script></script>
